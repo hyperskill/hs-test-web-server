@@ -6,20 +6,32 @@ process.env.NODE_ENV = 'development';
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
 process.on('unhandledRejection', err => {
-  throw err;
+    throw err;
+});
+
+let host = 'localhost';
+let port = 3000;
+
+process.argv.forEach(arg => {
+    if (arg.indexOf("port:") === 0) {
+        port = arg.slice(5)
+    } else if (arg.indexOf("host:") === 0) {
+        host = arg.slice(5)
+    } else if (arg.indexOf("path:") === 0) {
+        process.env.HSTEST_STAGE_PATH = arg.slice(5);
+    }
 });
 
 // Ensure environment variables are read.
 require('./config/env');
-// @remove-on-eject-begin
-// Do the preflight check (only happens before eject).
+
 
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const {
     prepareUrls,
-  createCompiler,
-  prepareProxy
+    createCompiler,
+    prepareProxy
 } = require('react-dev-utils/WebpackDevServerUtils');
 const detect = require('detect-port-alt');
 
@@ -29,8 +41,7 @@ const createDevServerConfig = require('./config/webpackDevServer.config');
 
 const isInteractive = process.stdout.isTTY;
 
-let port = parseInt(process.env.PORT, 10) || 3000;
-let host = process.env.HOST || 'localhost';
+
 
 
 // We require that you explicitly set browsers and do not fall back to
@@ -39,22 +50,13 @@ const config = configFactory('development');
 const appName = require(paths.appPackageJson).name;
 const tscCompileOnError = process.env.TSC_COMPILE_ON_ERROR === 'true';
 
-process.argv.forEach(arg => {
-    if (arg.indexOf("port:") === 0) {
-        port = arg.slice(5)
-    }
-    if (arg.indexOf("host:") === 0) {
-        host = arg.slice(5)
-    }
-})
-
 detect(port, host).then(
-new_port => {
-    if (new_port == null) {
+    new_port => {
+        if (new_port == null) {
             // We have not found a port.
             return;
-    }
-    port = new_port
+        }
+        port = new_port
 
         const urls = prepareUrls(
             "http",
@@ -93,6 +95,7 @@ new_port => {
             proxyConfig
         );
         const devServer = new WebpackDevServer(compiler, serverConfig);
+
 // Launch WebpackDevServer.
         devServer.listen(new_port, host, err => {
             if (err) {
@@ -119,11 +122,10 @@ new_port => {
             });
             process.stdin.resume();
         }
-    }).catch(err => {
+    })
+.catch(err => {
     if (err && err.message) {
         console.log(err.message);
     }
     process.exit(1);
-    });
-
-
+});
