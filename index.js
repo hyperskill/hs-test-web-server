@@ -8,7 +8,7 @@ const psTree = require('ps-tree')
 
 module.exports = ({service, runTests}) => {
   let url = service.url;
-  let start = 'node node_modules/hs-start-server-and-test/start.js'
+  let start = `node "${__dirname}/start.js"`
   const server = execa(`${start} port:${service.port} host:${service.host}`, { shell: true, stdio: 'inherit' })
   let serverStopped
 

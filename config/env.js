@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const paths = require('hs-start-server-and-test/config/paths');
+const paths = require('./paths');
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];

@@ -10,7 +10,7 @@ process.on('unhandledRejection', err => {
 });
 
 // Ensure environment variables are read.
-require('hs-start-server-and-test/config/env');
+require('./config/env');
 // @remove-on-eject-begin
 // Do the preflight check (only happens before eject).
 
@@ -23,9 +23,9 @@ const {
 } = require('react-dev-utils/WebpackDevServerUtils');
 const detect = require('detect-port-alt');
 
-const paths = require('hs-start-server-and-test/config/paths');
-const configFactory = require('hs-start-server-and-test/config/webpack.config');
-const createDevServerConfig = require('hs-start-server-and-test/config/webpackDevServer.config');
+const paths = require('./config/paths');
+const configFactory = require('./config/webpack.config');
+const createDevServerConfig = require('./config/webpackDevServer.config');
 
 const isInteractive = process.stdout.isTTY;
 
@@ -125,4 +125,5 @@ new_port => {
     }
     process.exit(1);
     });
+
 
