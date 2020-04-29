@@ -2,7 +2,7 @@
   "name": "hs-test-web-react",
   "version": "1.0.0",
   "description": "Starts server and runs tests for Hyperskill React project ",
-  "main": "hs-test-web-react/index.js",
+  "main": "index.js",
   "scripts": {},
   "author": "",
   "license": "ISC",
