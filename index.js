@@ -6,7 +6,7 @@ async function startServerAndTest(host, port, stage, test) {
     const src = stage.substring(process.cwd().length + 1) + '/src/';
 
     const server = spawn(process.argv[0], [
-        'start.js',
+        __dirname + 'start.js',
         'host:' + host,
         'port:' + port,
         'src:' + src
