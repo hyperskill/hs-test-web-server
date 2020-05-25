@@ -81,7 +81,6 @@ function getFiles(fromPath, dirs= true, files = true) {
 
 if (src.length <= 1) {
     let rootFolders = getFiles('.', files = false);
-    console.log(rootFolders);
 
     if (rootFolders.length !== 1) {
         console.error("Cannot find a path to sources, make sure " +
