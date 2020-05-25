@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Starts server and runs tests for Hyperskill web projects",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "hs-test-start-server": "node start.js"
+  },
   "author": "Vladimir Turov",
   "dependencies": {
     "@babel/core": "^7.9.6",
