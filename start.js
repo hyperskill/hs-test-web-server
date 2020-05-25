@@ -45,7 +45,8 @@ function runServer(host, port, src) {
             ]
         },
         devServer: {
-            contentBase: path.join(process.cwd(), publicPath)
+            contentBase: path.join(process.cwd(), publicPath),
+            stats: 'errors-only',
         }
     };
 
