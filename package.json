@@ -1,10 +1,10 @@
 {
-  "name": "hs-test-web-react",
+  "name": "hs-test-web-server",
   "version": "1.0.0",
-  "description": "Starts server and runs tests for Hyperskill React project ",
+  "description": "Starts server and runs tests for Hyperskill web projects",
   "main": "index.js",
   "scripts": {},
-  "author": "",
+  "author": "Vladimir Turov",
   "dependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
@@ -12,11 +12,12 @@
     "babel-loader": "^8.1.0",
     "css-loader": "^3.5.3",
     "file-loader": "^6.0.0",
+    "hs-test-web": "https://github.com/hyperskill/hs-test-web/archive/v1.tar.gz",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "style-loader": "^1.2.1",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "webpack-dev-server": "^3.10.3"
   }
 }

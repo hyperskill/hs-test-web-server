@@ -1,64 +1,46 @@
 const path = require('path');
-
-const Webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
-
-function runServer(host, port, src) {
-    const webpackConfig = {
-        mode: 'development',
-        entry: './' + src + 'index.js',
-        module: {
-            rules: [
-                {
-                    test: new RegExp(src + '.*\.js$'),
-                    loader: 'babel-loader',
-                    options: {
-                        babelrc: false,
-                        configFile: false,
-                        presets: ["@babel/preset-react"],
-                        cacheDirectory: true,
-                        cacheCompression: false,
-                        compact: false,
-                    },
-                },
-                {
-                    test: new RegExp(src + '.*\.css$'),
-                    use: ['style-loader', 'css-loader']
-                },
-                {
-                    test: new RegExp(src + '.*\.(png|svg|jpg|gif)$'),
-                    use: 'file-loader'
-                },
-                {
-                    test: new RegExp(src + '.*\.(woff|woff2|eot|ttf|otf)$'),
-                    use: 'file-loader'
-                },
-            ]
-        },
-        devtool: 'cheap-module-eval-source-map',
-        devServer: {
-            contentBase: path.join(process.cwd(), 'public')
-        }
-    };
-
-    const compiler = Webpack(webpackConfig);
-    const server = new WebpackDevServer(compiler, webpackConfig.devServer);
-
-    server.listen(port, host, () => {
-        console.log(`Starting server on http://${host}:${port}`);
-    });
-
-    return server;
-}
+const { spawn } = require('child_process');
+const hs = require('hs-test-web');
 
 async function startServerAndTest(host, port, stage, test) {
     const src = stage.substring(process.cwd().length + 1) + '/src/';
-    const server = runServer(host, port, src);
+
+    const server = spawn(process.argv[0], [
+        'start.js',
+        'host:' + host,
+        'port:' + port,
+        'src:' + src
+    ]);
+
+    let out = '';
+    let err = '';
+
+    server.stdout.on('data', (data) => {
+        console.log(data.toString());
+        out += data;
+    });
+
+    server.stderr.on('data', (data) => {
+        console.error(data.toString());
+        err += data;
+    });
+
+    const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
     try {
+        while (true) {
+            await sleep(10);
+            if (err.length > 0) {
+                return hs.wrong(err);
+            }
+            if (out.includes("Compiled successfully.")) {
+                break;
+            }
+        }
+
         return await test();
     } finally {
-        server.close();
+        server.kill();
     }
 }
 
