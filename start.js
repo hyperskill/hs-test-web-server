@@ -68,7 +68,7 @@ process.argv.forEach(arg => {
     } else if (arg.indexOf("src:") === 0) {
         src = arg.slice(4);
     } else if (arg.length === 1 && arg >= '0' && arg <= '9') {
-        src = +arg;
+        src = arg;
     }
 });
 
